@@ -78,6 +78,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    function refreshEditors() {
+        Object.values(editors).forEach(editor => editor.refresh());
+    }
+
     Object.values(editors).forEach(editor => {
         editor.on('change', () => {
             saveProject();
@@ -106,9 +110,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    window.addEventListener('load', function () {
-        Object.values(editors).forEach(editor => editor.refresh());
-    });
+    window.addEventListener("resize", refreshEditors);
+    setTimeout(refreshEditors, 500); // מבטיח שהעורכים מוצגים נכון אחרי טעינה
 
     updatePreview();
 });
