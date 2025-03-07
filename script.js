@@ -110,17 +110,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // **פתרון מתקדם - כפיית רענון לאחר טעינה מוחלטת**
-    requestAnimationFrame(() => {
-        setTimeout(() => {
-            editorContainer.style.display = 'none';
-            setTimeout(() => {
-                editorContainer.style.display = 'flex';
-                refreshEditors();
-            }, 50);
-        }, 50);
-    });
+    // **פתרון מלא** - שינוי תצוגה זמנית כדי לאלץ רינדור נכון
+    editorContainer.style.display = "none";
+    setTimeout(() => {
+        editorContainer.style.display = "flex";
+        refreshEditors(); // רענון כל העורכים מיד לאחר שינוי התצוגה
+    }, 100);
 
     window.addEventListener("resize", refreshEditors);
+
     updatePreview();
 });
