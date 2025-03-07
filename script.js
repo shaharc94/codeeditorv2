@@ -110,8 +110,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // רענון כל העורכים לאחר טעינת הדף
-    setTimeout(refreshEditors, 500);
+    // פתרון סופי לבעיה - כפיית רענון של CodeMirror אחרי טעינה
+    setTimeout(() => {
+        switchTab('css');  // מעבר זמני ללשונית CSS
+        setTimeout(() => {
+            switchTab('html'); // חזרה ל-HTML כדי לגרום לרינדור נכון
+            refreshEditors();
+        }, 100);
+    }, 100);
+
     window.addEventListener("resize", refreshEditors);
 
     updatePreview();
