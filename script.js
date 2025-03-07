@@ -110,8 +110,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // רענון כל העורכים לאחר טעינת הדף
+    setTimeout(refreshEditors, 500);
     window.addEventListener("resize", refreshEditors);
-    setTimeout(refreshEditors, 500); // מבטיח שהעורכים מוצגים נכון אחרי טעינה
 
     updatePreview();
 });
