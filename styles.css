@@ -86,19 +86,19 @@ body {
     flex-direction: column;
     overflow: hidden;
     padding: 16px;
+    height: 100%;
 }
 
 /* הגדרת גלילה לעורך */
 .CodeMirror {
     flex: 1;
     height: 100%;
-    min-height: 400px;
-    max-height: calc(100vh - 120px);
-    overflow: auto;
+    max-height: calc(100vh - 140px); /* ניצול מלא של המסך */
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     font-family: 'Menlo', 'Consolas', monospace;
     font-size: 14px;
+    overflow: auto;
 }
 
 /* תצוגה מקדימה */
