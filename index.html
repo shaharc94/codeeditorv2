@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>עורך הקוד</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/theme/neo.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="sidebar">
+        <button id="new-project-btn">
+            <i class="material-icons">add</i>
+            פרויקט חדש
+        </button>
+        <div id="project-list"></div>
+    </div>
+    <div id="main-content">
+        <div id="tabs">
+            <div class="tab active" data-tab="html">HTML</div>
+            <div class="tab" data-tab="css">CSS</div>
+            <div class="tab" data-tab="js">JavaScript</div>
+            <div class="tab" data-tab="preview">תצוגה מקדימה</div>
+        </div>
+        <div id="editor-container" class="active">
+            <textarea id="html" style="display: none;"></textarea>
+            <textarea id="css" style="display: none;"></textarea>
+            <textarea id="js" style="display: none;"></textarea>
+        </div>
+        <div id="preview-container">
+            <iframe id="output"></iframe>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.0/mode/javascript/javascript.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
