@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const tabs = document.querySelectorAll(".tab");
     const projectList = document.getElementById("project-list");
     const newProjectBtn = document.getElementById("new-project-btn");
+    const editorContainer = document.getElementById("editor-container");
+    const previewContainer = document.getElementById("preview-container");
 
     let projects = JSON.parse(localStorage.getItem('projects')) || {};
     let currentProject = null;
@@ -18,23 +20,42 @@ document.addEventListener("DOMContentLoaded", function () {
             theme: "neo",
             lineNumbers: true,
             lineWrapping: true,
-            viewportMargin: Infinity,
+            viewportMargin: Infinity
         }),
         css: CodeMirror.fromTextArea(textareas.css, {
             mode: "css",
             theme: "neo",
             lineNumbers: true,
             lineWrapping: true,
-            viewportMargin: Infinity,
+            viewportMargin: Infinity
         }),
         js: CodeMirror.fromTextArea(textareas.js, {
             mode: "javascript",
             theme: "neo",
             lineNumbers: true,
             lineWrapping: true,
-            viewportMargin: Infinity,
+            viewportMargin: Infinity
         }),
     };
+
+    function switchTab(tabName) {
+        tabs.forEach(tab => tab.classList.remove('active'));
+        document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+        if (tabName === 'preview') {
+            editorContainer.style.display = 'none';
+            previewContainer.style.display = 'block';
+            updatePreview();
+        } else {
+            editorContainer.style.display = 'flex';
+            previewContainer.style.display = 'none';
+
+            Object.keys(editors).forEach(key => {
+                editors[key].getWrapperElement().style.display = (key === tabName) ? 'block' : 'none';
+                editors[key].refresh(); // רענון התצוגה של העורך
+            });
+        }
+    }
 
     function updatePreview() {
         const html = editors.html.getValue();
@@ -46,13 +67,25 @@ document.addEventListener("DOMContentLoaded", function () {
         iframeDocument.close();
     }
 
-    function switchTab(tabName) {
-        tabs.forEach(tab => tab.classList.remove('active'));
-        document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-        if (tabName === 'preview') {
-            updatePreview();
+    function saveProject() {
+        if (currentProject) {
+            projects[currentProject] = {
+                html: editors.html.getValue(),
+                css: editors.css.getValue(),
+                js: editors.js.getValue()
+            };
+            localStorage.setItem('projects', JSON.stringify(projects));
         }
     }
+
+    Object.values(editors).forEach(editor => {
+        editor.on('change', () => {
+            saveProject();
+            if (document.querySelector('[data-tab="preview"]').classList.contains('active')) {
+                updatePreview();
+            }
+        });
+    });
 
     tabs.forEach(tab => {
         tab.addEventListener("click", function () {
@@ -60,8 +93,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    Object.values(editors).forEach(editor => {
-        editor.on('change', updatePreview);
+    newProjectBtn.addEventListener('click', () => {
+        const projectName = prompt('הכנס שם לפרויקט חדש:');
+        if (projectName) {
+            projects[projectName] = { html: '', css: '', js: '' };
+            localStorage.setItem('projects', JSON.stringify(projects));
+            currentProject = projectName;
+            editors.html.setValue('');
+            editors.css.setValue('');
+            editors.js.setValue('');
+            switchTab('html');
+        }
+    });
+
+    window.addEventListener('load', function () {
+        Object.values(editors).forEach(editor => editor.refresh());
     });
 
     updatePreview();
