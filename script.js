@@ -110,16 +110,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // פתרון סופי לבעיה - כפיית רענון של CodeMirror אחרי טעינה
-    setTimeout(() => {
-        switchTab('css');  // מעבר זמני ללשונית CSS
+    // **פתרון מתקדם - כפיית רענון לאחר טעינה מוחלטת**
+    requestAnimationFrame(() => {
         setTimeout(() => {
-            switchTab('html'); // חזרה ל-HTML כדי לגרום לרינדור נכון
-            refreshEditors();
-        }, 100);
-    }, 100);
+            editorContainer.style.display = 'none';
+            setTimeout(() => {
+                editorContainer.style.display = 'flex';
+                refreshEditors();
+            }, 50);
+        }, 50);
+    });
 
     window.addEventListener("resize", refreshEditors);
-
     updatePreview();
 });
